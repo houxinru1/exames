@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    // ajax({
+    //     url:'/user/info',
+    //     success(res) {
+    //     console.log(res);
+    //   }
+    // })
+    function ajax({ type = "POST", url, params = {}, success }) {
+      var xhr = new XMLHttpRequest();
+      xhr.open(type, url, true);
+      xhr.onload = function () {
+        if (xhr.status == 200) {
+          success(xhr.responseText);
+        }
+      };
+      xhr.send(JSON.stringify(params));
+    }
+
+
+    class MyAxios {
+      constructor(baseUrl) {
+          this.baseUrl=baseUrl;
+      }
+      post(url, params) {
+        return new Promise(function (resolve, reject) {
+          ajax({
+            url,
+            params,
+            success(res) {
+              resolve(res);
+            },
+          });
+        });
+      }
+    }
+    var axios = new MyAxios({
+      baseUrl: "/api",
+    });
+    function axiosinfo() {
+      return axios.post("/user/info");
+    }
+
+    axiosinfo().then((res) => {
+      console.log(res);
+    });
+  </script>
+</html>

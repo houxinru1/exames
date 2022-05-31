@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>123</div>
+  </body>
+  <script>
+    ////用原生js 写ajax访问服务端接口
+
+    ///服务端接口的入参
+    var params = {
+      username: "xiaoming",
+      password: "999999",
+    };
+    ///浏览器对象
+    var xhr = new XMLHttpRequest();
+    ////打开浏览器
+    /// xhr.open('get/post','url接口名'，'是否异步')
+    xhr.open("post", "/user/login", true);
+    ////服务端返回的数据，
+    xhr.onload = function () {
+      if (xhr.status == 200) {
+        //响应文本
+        console.log(xhr.responseText);
+      }
+      ///发送  （回车）   对象转换成字符串
+      ////params 传的参数， post方式需要传参数，get方式 在url后用 ？拼接，若有多个参数，用&拼接
+    };
+    xhr.send(JSON.stringify(params));
+
+    ////封装ajax
+    ////调用ajax 传变量////////
+    ajax({
+      url: "/user/login",
+      params: {
+        username: "xiaoming",
+        password: "999999",
+      },
+      success(res) {
+        console.log(res);
+      },
+    });
+    ///////封装ajax//////
+    function ajax({ type = "post", url, params = {}, success }) {
+      var xhr = new XMLHttpRequest();
+      xhr.open(type, url, true);
+      xhr.onload = function () {
+        if (xhr.status == 200) {
+          ///回调函数
+          success(xhr.responseText);
+        }
+      };
+      xhr.send(JSON.stringify(params));
+    }
+
+
+    
+    //////////////// promise基础语法///////
+    //  成功的回调  失败的回调
+    new Promise(function (resolve, reject) {
+      if (true) {
+        resolve("hello");
+      } else {
+        reject("no");
+      }
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    ///////////封装promise 对象////////
+    function login(params = {}) {
+      /////如果一个方法return一个什么值，这个方法就等于这个值
+      ///return promise对象，这个login 就是一个promise对象
+      return new Promise(function (resolve, reject) {
+        ajax({
+          url: "/user/login",
+          params,
+          success(res) {
+            resolve(res);
+          },
+        });
+      });
+    }
+    login({
+      username: "xiaoming",
+      password: "999999",
+    }).then((res) => {
+      console.log(res);
+    });
+    //////// .then方法后如果返回一个promise对象，那么这个 .then 侯就可以再接 .then
+    ///////如果一个方法返回一个promise对象，那么这个方法就有 .then方法
+    ////解决地狱回调/////////
+    login()
+      .then((res) => {
+        console.log(1);
+        console.log(res);
+        return login();
+      })
+    
+
+    /////封装axios
+    class Axios {
+      constructor() {}
+      post(url, params) {
+        return new Promise(function (resolve, reject) {
+          ajax({
+            url,
+            params,
+            success(res) {
+              resolve(res);
+            },
+          });
+        });
+      }
+    }
+
+    var axios = new Axios();
+    function axiosLogin(params = {}) {
+      return axios.post("/user/login", params);
+    }
+    axiosLogin({
+      username: "",
+      password: "",
+    }).then((res) => {
+      console.log(res);
+    });
+
+
+
+
+  </script>
+</html>

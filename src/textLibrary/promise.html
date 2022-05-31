@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    ///////自己封装 Mypromise 类
+    class MyPromise {
+      constructor(callback) {
+        this.callback = callback;
+        this.rescallback = "";
+        setTimeout(() => {
+          ////bind 改变this指向不执行，call改变this指向并执行这个方法
+          this.callback(this.resolve.bind(this), this.reject.bind(this));
+        });
+      }
+      resolve(params) {
+        this.rescallback(params);
+      }
+      reject() {}
+      then(thencallback) {
+        this.rescallback = thencallback;
+      }
+    }
+
+    var mypromise = new MyPromise(function (resolve, reject) {
+      resolve({ key: "hello world" });
+    }).then((res) => {
+      console.log(res);
+    });
+  </script>
+</html>

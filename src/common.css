@@ -1,0 +1,108 @@
+/* 在css中,目前来说,包含5大类的功能 */
+/* 第一个,是初始化默认样式 */
+
+/* 不能用*号，性能问题，此处只可以写标签名 */
+body {
+  margin: 0;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+}
+input {
+  outline: none;
+  border: none;
+}
+
+/* /* ::-webkit-scrollbar{
+    width:0;
+    height:0;
+} */
+
+/* 第二种:公共样式,就算你换一个项目,也可以用到这种样式,叫做全局的公共样式 */
+/* .scale-1-2 {
+    transform: scale(1.2);
+} */
+.mal-60 {
+  margin-left: 60px;
+}
+.mal-50 {
+  margin-left: 50px;
+}
+.mr-10 {
+  margin-right: 10px;
+}
+.mar-20 {
+  margin-right: 20px;
+}
+.mat-10 {
+  margin-top: 10px;
+}
+.mat-15 {
+  margin-top: 15px;
+}
+.mat-20 {
+  margin-top: 20px;
+}
+.mat-80 {
+  margin-top: 80px;
+}
+.mal-90 {
+  margin-left: 90px;
+}
+.mal-5 {
+  margin-left: 5px;
+}
+/* ///排成一行 */
+.flex-betwenen {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+/* 上下垂直居中 */
+.align-center {
+  display: flex;
+  align-items: center;
+}
+/* 水平垂直居中 */
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* 上下居中 */
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* 阴影 */
+.shadow {
+  box-shadow: 0 0 30px rgba(145, 144, 144, 0.4);
+}
+/* 第三种: 项目相关,他只能在当前项目中使用,这种公共的样式,叫做 项目中的公共样式 */
+/* .icon {
+    width: 20px;
+    height: 20px;
+} */
+
+/* 声明人的可视区范围 */
+/* 所以不应该包含其它的样式，或者布局问题 */
+.wrap {
+  width: 100%;
+  padding: 0 80px;
+  margin: 0 auto;
+  /* box-sizing: border-box; */
+}
+
+* 第四种:变量的声明 */
+/* 根元素 */
+/* 声明变量的方法：  --开头加变量名 */
+/* :root 如果你把他想成是js的话，他相当于window */
+/* js:  var headerHeight = '60px' */
+/* css 为了和js不冲突，所以以 --开头 */
+:root {
+  --header-height: 60px;
+}
