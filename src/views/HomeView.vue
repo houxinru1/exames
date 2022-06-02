@@ -164,7 +164,7 @@ export default {
       ////调用成功
       if (res.data.status == 1) {
         ///显示res下面data 的phone值赋值给username
-        this.data = res.data.data[0];
+        this.data = res.data.data;
       }
     });
     getloginApi().then((res) => {

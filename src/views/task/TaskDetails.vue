@@ -34,16 +34,13 @@
               {{ activity.content }}
             </el-timeline-item>
           </el-timeline>
-          <el-input
-            type="textarea"
-            :rows="2"
-            placeholder="再此输入评论"
-            v-model="textarea"
-          >
-          </el-input>
-          <el-button type="primary" class="but">主要按钮</el-button>
         </div>
+        <div class="quill-wrap">
+          <quill-editor ref="myQuillEditor" v-model="content" />
+        </div>
+        <el-button type="primary" class="but">主要按钮</el-button>
       </el-aside>
+
       <el-main>
         <div>
           <h3>项目</h3>
@@ -72,9 +69,13 @@
 
 <script>
 import { gettaskdetailApi } from "@/api/api";
+import "quill/dist/quill.snow.css";
+import { quillEditor } from "vue-quill-editor";
 export default {
+  components: { quillEditor },
   data() {
     return {
+      content: "",
       reverse: true,
       textarea: "",
       activities: [
@@ -117,6 +118,7 @@ export default {
 
 <style scoped lang="scss">
 .taskdetails {
+  height: 100%;
   padding: 0 25px;
   .iheader {
     height: 90px;
@@ -125,11 +127,15 @@ export default {
   .radio {
     margin-bottom: 20px;
   }
-  .but {
-    margin-top: 15px;
-  }
-  // .color-pink {
-  //   background: rgb(249, 240, 240);
-  // }
+}
+.quill-wrap {
+  height: 280px;
+}
+.ql-container {
+  min-height: 300px;
+}
+.quill-editor {
+  width: 880px;
+  height: 200px;
 }
 </style>

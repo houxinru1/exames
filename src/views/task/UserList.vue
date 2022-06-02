@@ -1,5 +1,6 @@
 <template>
   <div class="userlist">
+    <title-components title="用户列表" icon="el-icon-user"></title-components>
     <el-table
       ref="multipleTable"
       :data="data"
@@ -79,6 +80,7 @@
 
 <script>
 import { getuserlistApi } from "@/api/api";
+import titleComponents from "@/components/TitleComponents.vue";
 export default {
   data() {
     return {
@@ -88,6 +90,9 @@ export default {
       count: 0,
       //   total: "",
     };
+  },
+  components: {
+    titleComponents,
   },
   methods: {
     handleSizeChange(val) {

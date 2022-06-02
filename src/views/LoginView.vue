@@ -31,7 +31,8 @@
             placeholder="请输入验证码"
           ></el-input>
           <!-- //  : src为变量 -->
-          <img @click="getcaptcha" :src="captchaSrc" alt="" />
+          <!-- <img @click="getcaptcha" :src="captchaSrc" alt="" /> -->
+          <captcha-a ref="fff"></captcha-a>
         </div>
         <p class="info">
           <span>忘记密码</span>
@@ -52,8 +53,9 @@
 // 返回一个token
 // 如果前端校验不成功，
 // 提示用户一个信息
-import { getloginApi, getCaptchaApi } from "@/api/api";
-// getregisterApi
+import { getloginApi } from "@/api/api";
+import captchaA from "@/components/CaptchaComponents.vue";
+
 import { encrypt } from "../assets/utils";
 export default {
   data() {
@@ -68,6 +70,9 @@ export default {
         },
       },
     };
+  },
+  components: {
+    captchaA,
   },
   created() {
     ///进入页面，自动添加回车事件
@@ -92,11 +97,7 @@ export default {
         event.preventDefault();
       }
     },
-    ///点击验证码刷新
-    getcaptcha() {
-      this.captchaSrc = getCaptchaApi();
-      this.captcha = "";
-    },
+
     //校验是否有效
     async submit() {
       var isValidate = this.getResult();
@@ -123,7 +124,12 @@ export default {
           message: res.data.msg,
           type: "warning",
         });
-        this.getcaptcha();
+        // this.getcaptcha();
+        ///验证码刷新
+        console.log("组件中的属性");
+        console.log(this.$refs.fff.captchaSrc);
+        this.$refs.fff.getCaptcha();
+        // console.log(this.$refs.captcha);
       } else if (res.data.status == 401) {
         this.$router.push({
           name: "login",

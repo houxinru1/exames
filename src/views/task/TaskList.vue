@@ -1,7 +1,9 @@
 <template>
   <div class="tasklist">
     <div>
-      <h2>任务列表</h2>
+      <title-components title="任务列表" icon="el-icon-user"></title-components>
+
+      <!-- <h2>任务列表</h2> -->
       <el-form :inline="true" :model="formInline" class="demo-form-inline">
         <el-form-item label="任务名称">
           <el-input v-model="taskName" placeholder="名称"></el-input>
@@ -128,7 +130,7 @@
 
 <script>
 import { getlisttaskApi, getreleasetaskApi, getuserinfoApi } from "@/api/api";
-
+import titleComponents from "@/components/TitleComponents.vue";
 export default {
   data() {
     return {
@@ -147,6 +149,9 @@ export default {
         region: "",
       },
     };
+  },
+  components: {
+    titleComponents,
   },
 
   methods: {
@@ -211,7 +216,7 @@ export default {
     async getUserInfo() {
       let res = await getuserinfoApi({});
       console.log(res);
-      this.info = res.data.data[0];
+      this.info = res.data.data;
       console.log(this.info);
     },
     ///分页

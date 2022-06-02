@@ -124,7 +124,7 @@ export default {
     let res = await getUserInfoApi();
     if (res.data.status == 1) {
       ///将返回的数据赋值给data
-      this.data = res.data.data[0];
+      this.data = res.data.data;
     } else if (res.data.status !== 1) {
       this.$message({
         message: res.data.msg,

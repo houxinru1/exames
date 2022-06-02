@@ -44,7 +44,11 @@
         </el-aside>
         <el-main>
           <el-tabs v-model="activeName" @tab-click="handleClick">
-            <el-tab-pane label="角色成员" name="first">角色成员</el-tab-pane>
+            <el-tab-pane label="角色成员" name="first">
+              <div class="main">
+                
+              </div>
+            </el-tab-pane>
             <el-tab-pane label="配置管理" name="second">
               <div class="main">
                 <div class="setrole">
