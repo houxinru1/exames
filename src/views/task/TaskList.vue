@@ -97,6 +97,9 @@
             v-if="scope.row.isReceived == 0"
             >领取任务</el-link
           >
+          <el-link type="primary" @click="modifytask(scope.row)"
+            >修改任务</el-link
+          >
           <el-link type="primary">发布任务</el-link>
         </template>
       </el-table-column>
@@ -125,12 +128,16 @@
         <el-button type="primary" @click="clickreceive">确 定</el-button>
       </span>
     </el-dialog>
+    <el-dialog :visible.sync="dialogVis">
+      <createTask></createTask>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { getlisttaskApi, getreleasetaskApi, getuserinfoApi } from "@/api/api";
 import titleComponents from "@/components/TitleComponents.vue";
+import createTask from "@/components/CreateTask.vue";
 export default {
   data() {
     return {
@@ -142,6 +149,7 @@ export default {
       pageSize: 10,
       pageNum: 1,
       dialogVisible: false,
+      dialogVis: false,
       info: {},
       taskId: "",
       formInline: {
@@ -152,9 +160,14 @@ export default {
   },
   components: {
     titleComponents,
+    createTask,
   },
 
   methods: {
+    modifytask(row) {
+      this.dialogVis = true;
+      console.log(row);
+    },
     onSubmit() {
       this.getTaskList();
     },
@@ -183,7 +196,7 @@ export default {
     // 这个是领取任务的方法
     async clickreceive() {
       let res = await getreleasetaskApi({
-        userId: [this.info.id],
+        userIds: [this.info.id],
         taskId: this.taskId,
       });
       if (res.data.status == 1) {

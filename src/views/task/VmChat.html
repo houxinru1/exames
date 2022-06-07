@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    // class Vue {
+    //   constructor() {}
+    //   count(num1, num2) {
+    //     return num1 + num2;
+    //   }
+    //   $message(a) {
+    //     alert((a.type == "warning" ? "警告" : "成功") + a.messgae);
+    //   }
+    // }
+    // let vm = new Vue();
+    // let res = vm.count(10, 20);
+    // console.log(res);
+    // vm.$message({
+    //   type: "warning",
+    //   messgae: "用户密码错误",
+    // });
+
+    class Animal {
+      constructor(name) {
+        this.name = name;
+      }
+      can(fn) {
+        this.run = fn;
+      }
+    }
+
+    let dog = new Animal("小狗");
+    function run() {
+      console.log(this.name + "跑起来");
+    }
+    dog.can(run);
+    dog.run();
+  </script>
+</html>

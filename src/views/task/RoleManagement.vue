@@ -3,7 +3,8 @@
     <el-container>
       <el-header class="iheader align-center">
         <span class="el-icon-user mr-10"></span>
-        <h3>权限管理</h3>
+        <!-- <h3>权限管理</h3> -->
+        <title-components>权限管理</title-components>
       </el-header>
 
       <el-container>
@@ -45,9 +46,7 @@
         <el-main>
           <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="角色成员" name="first">
-              <div class="main">
-                
-              </div>
+              <div class="main"></div>
             </el-tab-pane>
             <el-tab-pane label="配置管理" name="second">
               <div class="main">
@@ -172,7 +171,6 @@
 
 <script>
 import { getrolelistApi, getroleGrouplistApi } from "@/api/api";
-// import { headleClick } from "@/assets/utils/index";
 const cityOptions = ["上海", "北京", "广州", "深圳"];
 export default {
   data() {

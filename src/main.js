@@ -18,5 +18,6 @@ Vue.use(
   new VueSocketIO({
     debug: false,
     connection: "http://192.168.0.120:7001", //这个地址是服务端地址
+    // connection: "http://192.168.0.123:7001", // 线上 服务端域名地址
   })
 );

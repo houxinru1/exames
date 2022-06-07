@@ -181,6 +181,18 @@ export const gettaskdetailApi = function (payload = {}) {
 };
 
 /**
+ * @description  修改任务接口
+ *  @dparam payload       id  :<number>, //任务id
+ *  @dparam payload      name:<string>, //任务名称
+ *  @dparam payload     desc:<string>, //任务描述
+ *  @dparam payload      duration: <number>,  //任务时长
+ *  @dparam payload     level:<number>,  // 任务等级  1：紧急  0：普通任务
+ ***/
+export const gettaskupdateApi = function (payload = {}) {
+  return axios.post("/task/update", payload, getPostConfig());
+};
+
+/**
  * @description  角色列表
  *  @dparam payload    pagination : <boolean>,    //非必填  表示是否需要分页  如果传 false：不分页   true:分页   默认不传是分页;
  *  @dparam payload    pageSize   : <number>,     //非必填  每页获取几条数据  如果不传 默认是获取10条；
