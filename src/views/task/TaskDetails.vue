@@ -3,7 +3,8 @@
     <el-container>
       <el-aside width="900px">
         <div class="iheader">
-          <h3>任务详情</h3>
+      <m-title title="任务详情" icon="el-icon-user"></m-title>
+          
           <div>
             <el-button size="small" class="el-icon-edit">编辑按钮</el-button>
             <el-button size="small" class="el-icon-upload2">编辑按钮</el-button>

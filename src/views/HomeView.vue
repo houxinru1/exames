@@ -98,10 +98,10 @@
                   >任务详情</el-menu-item
                 >
 
-                <el-menu-item index="1-6" @click="headleClick('chatpage')"
+                <el-menu-item index="1-4" @click="headleClick('chatpage')"
                   >聊天页面</el-menu-item
                 >
-                <el-menu-item index="1-7" @click="headleClick('userlist')"
+                <el-menu-item index="1-5" @click="headleClick('userlist')"
                   >用户列表</el-menu-item
                 >
               </el-menu-item-group>
@@ -112,11 +112,15 @@
                 <i class="el-icon-setting"></i>
                 <span>角色管理</span>
               </template>
-              <el-menu-item index="1-4" @click="headleClick('rolepermissions')"
+              <el-menu-item index="1-1" @click="headleClick('rolepermissions')"
                 >新增角色权限</el-menu-item
               >
-              <el-menu-item index="1-5" @click="headleClick('rolemanagement')"
+              <el-menu-item index="1-2" @click="headleClick('rolemanagement')"
                 >权限管理</el-menu-item
+              >
+              
+                <el-menu-item index="1-3" @click="headleClick('permissionconfiguration')"
+                >权限配置</el-menu-item
               >
             </el-submenu>
           </el-menu>
@@ -146,7 +150,7 @@ export default {
         name: name,
       });
     },
-    ///点击退出
+    ///点击退出调退出接口，getretreatApi
     retreat() {
       getretreatApi().then((res) => {
         if (res.data.status == 1) {

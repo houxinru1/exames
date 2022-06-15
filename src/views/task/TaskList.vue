@@ -1,17 +1,14 @@
 <template>
   <div class="tasklist">
     <div>
-      <title-components title="任务列表" icon="el-icon-user"></title-components>
+      <m-title title="任务列表" icon="el-icon-user"></m-title>
 
-      <!-- <h2>任务列表</h2> -->
       <el-form :inline="true" :model="formInline" class="demo-form-inline">
         <el-form-item label="任务名称">
           <el-input v-model="taskName" placeholder="名称"></el-input>
         </el-form-item>
         <el-form-item label="任务执行人">
           <el-select v-model="formInline.region" placeholder="执行人">
-            <!-- <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option> -->
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -25,18 +22,12 @@
       tooltip-effect="dark"
       style="width: 100%"
     >
-      <el-table-column type="selection" width="40"> </el-table-column>
-      <el-table-column
-        prop="taskName"
-        label="任务名"
-        width="120"
-        align="center"
-      >
+      <el-table-column type="selection" width="40"></el-table-column>
+      <el-table-column prop="taskName" label="任务名" align="center">
       </el-table-column>
       <el-table-column
         prop="desc"
         label="任务描述"
-        width="200"
         show-overflow-tooltip
         align="center"
       >
@@ -44,7 +35,6 @@
       <el-table-column
         prop="duration"
         label="任务时长"
-        width="100"
         show-overflow-tooltip
         align="center"
       >
@@ -55,7 +45,6 @@
       <el-table-column
         prop="levelName"
         label="任务等级"
-        width="120"
         show-overflow-tooltip
         align="center"
       >
@@ -63,20 +52,15 @@
       <el-table-column
         prop="userName"
         label="任务发布人"
-        width="120"
         show-overflow-tooltip
         align="center"
       >
       </el-table-column>
-      <el-table-column
-        label="创建时间"
-        show-overflow-tooltip
-        align="center"
-        width="200"
-      >
+      <el-table-column label="创建时间" show-overflow-tooltip align="center">
+        <!-- ///处理时间 new Date(scope.row.createdAt).toLocaleString() -->
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{
-            new Date(scope.row.createdAt).toLocaleString()
+            formatDate(scope.row.createdAt)
           }}</span>
         </template>
       </el-table-column>
@@ -125,20 +109,33 @@
       <span>确认领取任务？</span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="clickreceive">确 定</el-button>
+        <el-button type="primary" @click="getReleasetask">确 定</el-button>
       </span>
     </el-dialog>
+
     <el-dialog :visible.sync="dialogVis">
-      <createTask></createTask>
+      <title-components title="修改任务"></title-components>
+      <task-form1
+        :data="selectedData"
+        @submit="taskLogic"
+        ref="form"
+      ></task-form1>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { getlisttaskApi, getreleasetaskApi, getuserinfoApi } from "@/api/api";
-import titleComponents from "@/components/TitleComponents.vue";
-import createTask from "@/components/CreateTask.vue";
+import {
+  getlisttaskApi,
+  getreleasetaskApi,
+  getuserinfoApi,
+  gettaskupdateApi,
+} from "@/api/api";
+// import titleComponents from "@/components/TitleComponents.vue";
+import TaskForm1 from "@/components/TaskForm1.vue";
+import formatDate from "@/mixins/mixin";
 export default {
+  mixins: [formatDate],
   data() {
     return {
       tableData: [],
@@ -156,23 +153,48 @@ export default {
         user: "",
         region: "",
       },
+      selectedData: [],
     };
   },
   components: {
-    titleComponents,
-    createTask,
+    // titleComponents,
+    TaskForm1,
   },
 
   methods: {
+    ////点击确定按钮，修改逻辑
+    async taskLogic(form) {
+      let { name, duration, desc, level, id ,userIds} = form;
+      this.taskId=id;
+      let res = await gettaskupdateApi({
+        id,
+        name,
+        desc,
+        duration,
+        level,
+      });
+      if (res.data.status == 1) {
+        this.dialogVis = false;
+
+        ////发布接口
+        this.getReleasetask(userIds);
+        ////刷新列表
+        this.getTaskList();
+      }
+    },
+    ///点击修改任务,打开弹层，调用子组件中的init方法
     modifytask(row) {
       this.dialogVis = true;
-      console.log(row);
+      this.selectedData = row;
+      this.$nextTick(() => {
+        ////调用子组件中init方法
+        this.$refs.form.init();
+      });
     },
     onSubmit() {
       this.getTaskList();
     },
-    ///处理时间
-    // {{ new Date(scope.row.createdAt).toLocaleString() }}
+
     //   刚开始的时候   通过点击了 领取任务按钮
     // 然后 点击的时候 传了一个参数  这个参数是当前领取的这一个任务的任务id
     // 拿到这个id之后  先给 实例 中声明一个变量  这个变量的值 就是当前任务的id
@@ -193,10 +215,10 @@ export default {
         })
         .catch(() => {});
     },
-    // 这个是领取任务的方法
-    async clickreceive() {
+    // 确定领取任务？弹层确定的逻辑
+    async getReleasetask(userIds) {
       let res = await getreleasetaskApi({
-        userIds: [this.info.id],
+        userIds,
         taskId: this.taskId,
       });
       if (res.data.status == 1) {
@@ -205,11 +227,11 @@ export default {
         this.getTaskList();
       }
     },
-
+    ////点击领取任务，弹出弹框
     receivetask(id) {
       console.log("id", id);
       this.taskId = id;
-      // 这里的id是当前点击领取任务的这一条数据的 任务id
+      // 这里的id是当前点击领取任务的这一条数据的 任务id  [this.info.id]
       this.dialogVisible = true;
     },
 
@@ -221,6 +243,7 @@ export default {
         pageSize: this.pageSize,
         pageNum: this.pageNum,
       });
+      // console.log(res);
       this.tableData = res.data.data.rows;
       this.count = res.data.data.count;
       this.pageCount = res.data.data.pageCount;

@@ -1,6 +1,6 @@
 <template>
   <div class="userlist">
-    <title-components title="用户列表" icon="el-icon-user"></title-components>
+    <m-title title="用户列表" icon="el-icon-user"></m-title>
     <el-table
       ref="multipleTable"
       :data="data"
@@ -80,7 +80,6 @@
 
 <script>
 import { getuserlistApi } from "@/api/api";
-import titleComponents from "@/components/TitleComponents.vue";
 export default {
   data() {
     return {
@@ -91,9 +90,7 @@ export default {
       //   total: "",
     };
   },
-  components: {
-    titleComponents,
-  },
+ 
   methods: {
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);

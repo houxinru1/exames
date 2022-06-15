@@ -20,6 +20,7 @@ const routes = [
         name: "questionbank",
         component: () => import("../views/task/QuestionBank.vue"),
       },
+     
       {
         path: "/jsquestion",
         name: "jsquestion",
@@ -64,6 +65,11 @@ const routes = [
         path: "/userlist",
         name: "userlist",
         component: () => import("../views/task/UserList.vue"),
+      },
+      {
+        path: "/permissionconfiguration",
+        name: "permissionconfiguration",
+        component: () => import("../views/PermissionConfiguration.vue"),
       },
     ],
   },
