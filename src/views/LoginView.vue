@@ -166,13 +166,7 @@ export default {
       if (!res.result) this.$message(res.message);
       return res.result;
     },
-    ////点击注册 跳转
-    // registration() {
-    //   // getregisterApi();
-    //   this.$router.push({
-    //     name: "regist",
-    //   });
-    // },
+   
   },
 };
 </script>

@@ -110,6 +110,9 @@ export default {
         type: [
           { required: true, message: "请选择权限类型", trigger: "change" },
         ],
+        pid: [
+          { required: true, message: "请选择所在目录", trigger: "change" },
+        ],
       },
       create: true,
     };
@@ -264,6 +267,7 @@ export default {
 }
 .block {
   width: 50%;
+ 
   align-content: center;
 }
 </style>

@@ -34,94 +34,26 @@
             background-color="#0b1b34"
             text-color="#fff"
             active-text-color="#ffd04b"
+            unique-opened
           >
-            <!-- <el-menu-item index="2" @click="headleClick('regist')">
-              <i class="el-icon-menu"></i>
-              <span slot="title">注册</span>
-            </el-menu-item> -->
-
-            <el-submenu index="1">
-              <template slot="title">
-                <i class="el-icon-location"></i>
-                <span>题库管理</span>
-              </template>
-              <el-menu-item-group>
-                <el-menu-item index="1-1" @click="headleClick('questionbank')"
-                  >题库管理</el-menu-item
-                >
-                <el-menu-item index="1-2">Html题库</el-menu-item>
-                <el-menu-item index="1-3" @click="headleClick('jsquestion')"
-                  >Js题库</el-menu-item
-                >
-                <el-menu-item index="1-4">Vue题库</el-menu-item>
-              </el-menu-item-group>
-            </el-submenu>
-
-            <el-menu-item index="4" @click="headleClick()">
-              <i class="el-icon-document"></i>
-              <span slot="title">报名系统</span>
-            </el-menu-item>
-            <el-menu-item index="5" @click="headleClick('')">
-              <i class="el-icon-setting"></i>
-              <span slot="title">刷题系统</span>
-            </el-menu-item>
-            <el-menu-item index="6" @click="headleClick('')">
-              <i class="el-icon-setting"></i>
-              <span slot="title">匹配比赛</span>
-            </el-menu-item>
-
-            <el-submenu index="7">
-              <template slot="title">
-                <i class="el-icon-setting"></i>
-                <span>账号设置</span>
-              </template>
-              <el-menu-item-group>
-                <el-menu-item index="1-1" @click="headleClick('personaldata')"
-                  >个人资料</el-menu-item
-                >
-              </el-menu-item-group>
-            </el-submenu>
-
-            <el-submenu index="8">
-              <template slot="title">
-                <i class="el-icon-setting"></i>
-                <span>我的任务</span>
-              </template>
-              <el-menu-item-group>
-                <el-menu-item index="1-1" @click="headleClick('createtask')"
-                  >创建任务</el-menu-item
-                >
-                <el-menu-item index="1-2" @click="headleClick('tasklist')"
-                  >任务列表</el-menu-item
-                >
-                <el-menu-item index="1-3" @click="headleClick('taskdetails')"
-                  >任务详情</el-menu-item
-                >
-
-                <el-menu-item index="1-4" @click="headleClick('chatpage')"
-                  >聊天页面</el-menu-item
-                >
-                <el-menu-item index="1-5" @click="headleClick('userlist')"
-                  >用户列表</el-menu-item
-                >
-              </el-menu-item-group>
-            </el-submenu>
-
-            <el-submenu index="9">
-              <template slot="title">
-                <i class="el-icon-setting"></i>
-                <span>角色管理</span>
-              </template>
-              <el-menu-item index="1-1" @click="headleClick('rolepermissions')"
-                >新增角色权限</el-menu-item
-              >
-              <el-menu-item index="1-2" @click="headleClick('rolemanagement')"
-                >权限管理</el-menu-item
-              >
+            <el-submenu
+              :index="item.name"
+              v-for="item in menu"
+              :key="item.name"
               
-                <el-menu-item index="1-3" @click="headleClick('permissionconfiguration')"
-                >权限配置</el-menu-item
-              >
+            >
+              <template slot="title">
+                <i :class="item.meta.icon"></i>
+                <span>{{ item.label }} </span>
+              </template>
+
+              <el-menu-item
+                :index="child.name"
+                @click="headleClick(child.name)"
+                v-for="child in item.children"
+                :key="child.name"
+                >{{ child.label }}
+              </el-menu-item>
             </el-submenu>
           </el-menu>
         </el-col>
@@ -136,11 +68,14 @@
 
 <script>
 import { getretreatApi, getUserInfoApi, getloginApi } from "@/api/api";
+import menu from "@/config/menu.config";
 export default {
   name: "HomeView",
   data() {
     return {
       data: "",
+      menu,
+      
     };
   },
   methods: {
@@ -169,6 +104,10 @@ export default {
       if (res.data.status == 1) {
         ///显示res下面data 的phone值赋值给username
         this.data = res.data.data;
+      } else if (this.data.data.status == 401) {
+        this.$router.push({
+          name: "login",
+        });
       }
     });
     getloginApi().then((res) => {

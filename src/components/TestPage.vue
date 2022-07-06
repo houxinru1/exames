@@ -14,6 +14,7 @@ export default {
       content: "",
     };
   },
+  
 };
 </script>
 <style>

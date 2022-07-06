@@ -560,7 +560,7 @@ export default {
       ///循环questionOptions ，找到里面的key是否等于form.answer，
       let res = newValue.find((item) => item.key == this.form.answer);
       this.form.answer = res ? res.key : "";
-      console.log(res);
+      // console.log(res);
     },
   },
   created() {

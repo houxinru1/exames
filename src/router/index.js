@@ -16,6 +16,11 @@ const routes = [
     component: () => import("../views/HomeView.vue"),
     children: [
       {
+        path: "/setavatar",
+        name: "setavatar",
+        component: () => import("../views/SetAvatar.vue"),
+      },
+      {
         path: "/questionbank",
         name: "questionbank",
         component: () => import("../views/task/QuestionBank.vue"),
