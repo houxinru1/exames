@@ -16,6 +16,21 @@ export default [
         path: "/jsquestion",
         name: "jsquestion",
       },
+      {
+        label: "创建题库",
+        path: "/createquestion",
+        name: "createquestion",
+      },
+      {
+        label: "删除题库",
+        path: "/deletequestion",
+        name: "deletequestion",
+      },
+      {
+        label: "修改题库",
+        path: "/modifyquestion",
+        name: "modifyquestion",
+      },
     ],
   },
   {

@@ -14,8 +14,8 @@ Vue.config.productionTip = false;
 Vue.use(
   new VueSocketIO({
     debug: false,
-    connection: "http://192.168.0.122:7001", //这个地址是服务端地址
-    // connection: "http://192.168.0.123:7001", // 线上 服务端域名地址
+    // connection: "http://192.168.0.127:7001", //这个地址是服务端地址
+    connection: "http://192.168.0.112:7001", // 线上 服务端域名地址
   })
 ); 
 new Vue({

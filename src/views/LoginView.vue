@@ -120,6 +120,7 @@ export default {
         });
         // 登录失败，提示对应信息，刷新验证码
       } else if (res.data.status !== 1) {
+        console.log(res);
         this.$message({
           message: res.data.msg,
           type: "warning",

@@ -313,3 +313,11 @@ export const getcommentlistApi = function (payload = {}) {
  export const getrolepermissionlistApi = function (payload = {}) {
   return axios.post(" /rolepermission/list", payload, getPostConfig());
 };
+
+
+/**
+ * @description  返回头像列表接口
+ ***/
+ export const getavatarlistApi = function (payload = {}) {
+  return axios.post("/avatar/list", payload, getPostConfig());
+};

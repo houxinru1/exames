@@ -12,7 +12,7 @@
 
         <span class="mar-15">
           <img
-            src="../assets/icon_avatar.png"
+            :src="this.$store.state.imageUrl.avatarImg" 
             alt=""
             class="icon-user ver-al"
           />
@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { getretreatApi, getUserInfoApi, getloginApi } from "@/api/api";
+import { getretreatApi, getloginApi } from "@/api/api";
 import menu from "@/config/menu.config";
 export default {
   name: "HomeView",
@@ -88,7 +88,7 @@ export default {
     ///点击退出调退出接口，getretreatApi
     retreat() {
       getretreatApi().then((res) => {
-        if (res.data.status == 1) {
+        if (res.data.status == 1) { 
           sessionStorage.setItem("token", null);
           this.$router.push({
             name: "login",
@@ -99,17 +99,20 @@ export default {
   },
   created() {
     ////调用用户信息接口
-    getUserInfoApi().then((res) => {
-      ////调用成功
-      if (res.data.status == 1) {
-        ///显示res下面data 的phone值赋值给username
-        this.data = res.data.data;
-      } else if (this.data.data.status == 401) {
+    this.$store.dispatch('getUserInfoApi').then(res=>{
+      console.log(res);
+       if (res.data.status == 1) {
+         ///显示res下面data 的phone值赋值给username
+        this.data = res.data.data;   
+       this.$store.commit('imageUrl',res.data.data)
+        console.log(this.$store.state.imageUrl);
+      } else {
         this.$router.push({
           name: "login",
         });
-      }
-    });
+      } 
+    })
+   
     getloginApi().then((res) => {
       if (res.data.status == 401) {
         this.$router.push({
